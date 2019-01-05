@@ -1,0 +1,11 @@
+---
+sudo: required
+language: python
+services:
+  - docker
+  - sudo apt-get -qq update
+install:
+  - pip install molecule
+  - pip install docker
+script:
+  - molecule test

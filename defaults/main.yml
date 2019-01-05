@@ -1,0 +1,7 @@
+---
+
+crio_install_runc: true
+crio_manage_kubelet_extra_args: true
+crio_version: "1.13"
+runc_version: "1.0.0-rc6"
+go_version: "1.10.7"

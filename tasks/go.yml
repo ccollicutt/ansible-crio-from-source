@@ -1,0 +1,20 @@
+---
+
+- name: download go tarball
+  get_url:
+    url: "https://dl.google.com/go/go{{ go_version }}.linux-amd64.tar.gz"
+    dest: "/srv"
+
+- name: extract golang tarball to /usr/local/
+  unarchive:
+    src: "/srv/go{{ go_version }}.linux-amd64.tar.gz"
+    dest: "/usr/local"
+    remote_src: true
+
+- name: link /usr/bin/go  to /usr/local/go...
+  file:
+    src: /usr/local/go/bin/go
+    dest: /usr/bin/go
+    owner: root
+    group: root
+    state: link

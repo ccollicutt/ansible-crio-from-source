@@ -1,0 +1,16 @@
+---
+
+- name: ensure software properties is installed
+  apt:
+    name: "software-properties-common"
+    update_cache: true
+
+- name: install flatpak ppa
+  apt_repository:
+    repo: "ppa:alexlarsson/flatpak"
+    update_cache: true
+
+- name: install projectatomic ppa
+  apt_repository:
+    repo: "ppa:projectatomic/ppa"
+    update_cache: true

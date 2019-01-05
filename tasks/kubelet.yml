@@ -1,0 +1,6 @@
+---
+
+- name: install /etc/default/kubelet from template
+  template:
+    src: "etc/default/kubelet"
+    dest: "/etc/default/kubelet"

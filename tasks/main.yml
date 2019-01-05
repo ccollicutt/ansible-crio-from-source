@@ -1,0 +1,15 @@
+---
+
+- include_tasks: ppa.yml
+
+- include_tasks: go.yml
+
+- include_tasks: runc.yml
+  when: crio_install_runc
+
+- include_tasks: crio-config.yml
+- include_tasks: crio-source.yml
+- include_tasks: crio-service.yml
+
+- include_tasks: kubelet.yml
+  when: crio_manage_kubelet_extra_args

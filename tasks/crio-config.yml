@@ -1,0 +1,24 @@
+---
+
+- name: ensure required modules are installed
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ crio_kernel_modules }}"
+
+- name: install /etc/sysctl.d/99-kubernetes-cri.conf from template
+  template:
+    src: "etc/sysctl.d/99-kubernetes-cri.conf"
+    dest: "/etc/sysctl.d/99-kubernetes-cri.conf"
+  notify: reload sysctl
+
+# FIXME: policy.json maybe solved by installed skopeo?
+- name: ensure /etc/containers exists
+  file:
+    path: "/etc/containers"
+    state: "directory"
+
+- name: install /etc/containers/policy.json from template
+  template:
+    src: "etc/containers/policy.json"
+    dest: "/etc/containers/policy.json"

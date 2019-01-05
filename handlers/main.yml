@@ -1,0 +1,10 @@
+---
+
+- name: reload sysctl
+  command: sysctl --system
+
+- name: restart crio
+  service:
+    name: "crio"
+    state: "restarted"
+    daemon_reload: true

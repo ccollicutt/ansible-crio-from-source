@@ -1,0 +1,15 @@
+---
+
+- name: install crio systemd files
+  copy:
+    remote_src: true
+    src: "{{ crio_build_dir }}/contrib/systemd/{{ item }}"
+    dest: "/etc/systemd/system/{{ item }}"
+  with_items: "{{ crio_systemd_files }}"
+
+- name: ensure crio is enabled and started
+  systemd:
+    name: "crio"
+    enabled: true
+    state: "started"
+    daemon_reload: true

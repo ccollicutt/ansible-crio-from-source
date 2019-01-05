@@ -1,0 +1,42 @@
+---
+
+- name: ensure build packages are installed
+  apt:
+    name: "{{ crio_build_packages }}"
+
+- name: checkout cri-o from github
+  git:
+    repo: "https://github.com/kubernetes-sigs/cri-o"
+    dest: "{{ crio_build_dir }}"
+    version: "{{ crio_branch }}"
+
+- name: test if crio is already installed
+  stat:
+    path: "/usr/local/bin/crio"
+  register: no_crio
+  ignore_errors: true
+
+- name: build crio
+  command: "{{ item }}"
+  args:
+    chdir: "{{ crio_build_dir }}"
+  with_items: "{{ crio_build_commands }}"
+  when: no_crio.stat.exists == false
+
+  # FIXME: policy.json maybe solved by installed skopeo?
+- name: ensure /etc/containers exists
+  file:
+    path: "/etc/containers"
+    state: "directory"
+
+- name: install /etc/containers/policy.json from template
+  template:
+    src: "etc/containers/policy.json"
+    dest: "/etc/containers/policy.json"
+
+- name: configure image repositories in crio.conf
+  ini_file:
+    path: "/etc/crio/crio.conf"
+    section: "crio.image"
+    option: "registries"
+    value: "['docker.io']"
