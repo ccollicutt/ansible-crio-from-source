@@ -11,7 +11,7 @@
     dest: "/usr/local"
     remote_src: true
 
-- name: link /usr/bin/go  to /usr/local/go...
+- name: link /usr/bin/go to /usr/local/go
   file:
     src: /usr/local/go/bin/go
     dest: /usr/bin/go

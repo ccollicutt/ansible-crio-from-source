@@ -4,7 +4,7 @@
   command: sysctl --system
 
 - name: restart crio
-  service:
+  systemd:
     name: "crio"
     state: "restarted"
     daemon_reload: true
