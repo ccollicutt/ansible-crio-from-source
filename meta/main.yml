@@ -6,7 +6,7 @@ galaxy_info:
   min_ansible_version: 2.4
   platforms:
   - name: Ubuntu
-     versions:
-     - Xenial
+    versions:
+    - Xenial
   galaxy_tags: ["crio", "cri-o"]
 dependencies: []
