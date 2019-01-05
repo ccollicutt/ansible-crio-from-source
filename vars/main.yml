@@ -8,13 +8,12 @@ crio_version: "1.13"
 crio_branch: "release-{{ crio_version }}"
 crio_package: "cri-o-{{ crio_version }}"
 
-# NOTE(curtis): use runc from ppa?
+
 # NOTE(curtis): libostree-dev comes from flatpak ppa
 # NOTE(curtis): golang-go is way too old, 1.8.5 doesn't work either
 # NOTE(curtis): runc can come from the atomicproject ppa, but it puts runc in /usr/sbin
 # as opposed to /usr/bin/ where it seems the crio.conf file that is generated from make
 # config goes.
-
 crio_build_packages:
   - btrfs-tools
   - containers-common
@@ -43,7 +42,4 @@ crio_systemd_files:
   - crio.service
   - crio-shutdown.service
 
-runc_version: "1.0.0-rc6"
 runc_download_url: "https://github.com/opencontainers/runc/releases/download/{{ runc_version }}/runc.amd64"
-
-go_version: "1.10.7"
