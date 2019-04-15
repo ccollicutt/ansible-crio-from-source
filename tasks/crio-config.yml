@@ -22,3 +22,21 @@
   template:
     src: "etc/containers/policy.json"
     dest: "/etc/containers/policy.json"
+
+- name: test if running in CI
+  set_fact:
+    ci: "{{ lookup('env','CI') | bool }}"
+  ignore_errors: True
+
+# NOTE: If we are running in travis, we are running docker in docker
+# and that causes all kinds of issues...
+- name: check if we are running in a CI system
+  file:
+    dest: "/etc/containers/storage.conf"
+    content: |
+      [storage]
+      driver = "vfs"
+  notify: restart crio
+  when: >
+    ci is defined and
+    ci == True
