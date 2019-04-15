@@ -6,24 +6,45 @@
 
 - name: checkout cri-o from github
   git:
-    repo: "https://github.com/kubernetes-sigs/cri-o"
+    repo: "{{ crio_repo }}"
     dest: "{{ crio_build_dir }}"
-    version: "{{ crio_branch }}"
+    version: "{{ crio_tag }}"
+
+- name: test crio version 
+  shell: "{{ crio_binary_install_path }} --version"
+  register: test_crio_version
+  ignore_errors: True
+  changed_when: False
 
 - name: test if crio is already installed
   stat:
-    path: "/usr/local/bin/crio"
+    path: "{{ crio_binary_install_path }}"
   register: no_crio
   ignore_errors: true
 
+- debug:
+    var: test_crio_version
+    verbosity: 2
+
+- name: set current crio version
+  set_fact:
+    current_crio_version: "{{ test_crio_version.stdout_lines[0] | trim }}"
+
+- name: set expected crio version
+  set_fact:
+    expected_crio_version: "crio version {{ crio_version }}"
+
 - name: build crio
-  command: "{{ item }}"
+  shell: "{{ item }}"
   args:
     chdir: "{{ crio_build_dir }}"
   with_items: "{{ crio_build_commands }}"
-  when: no_crio.stat.exists == false
+  when: > 
+    test_crio_version.failed or
+    no_crio.stat.exists == false or
+    ( current_crio_version != expected_crio_version and crio_upgrade == True )
 
-  # FIXME: policy.json maybe solved by installed skopeo?
+# FIXME: policy.json maybe solved by installed skopeo?
 - name: ensure /etc/containers exists
   file:
     path: "/etc/containers"

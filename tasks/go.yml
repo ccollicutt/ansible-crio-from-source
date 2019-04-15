@@ -11,10 +11,34 @@
     dest: "/usr/local"
     remote_src: true
 
-- name: link /usr/bin/go to /usr/local/go
+- name: link /usr/bin/go to /usr/local/go/bin/go
   file:
     src: /usr/local/go/bin/go
     dest: /usr/bin/go
     owner: root
     group: root
     state: link
+
+- name: obtain go version string 
+  shell: "/usr/bin/go version"
+  register: current_go_version 
+  changed_when: False
+
+- set_fact:
+    current_go_version: "{{ current_go_version.stdout | trim }}"
+
+- set_fact:
+    expected_go_version: "go version go{{ go_version }} linux/amd64"
+
+- debug: 
+    var: current_go_version
+    verbosity: 2
+
+- debug: 
+    var: expected_go_version
+    verbosity: 2
+
+- name: fail when unexpected go version
+  fail:
+    msg: "unexpected go version {{ current_go_version }}"
+  when: expected_go_version != current_go_version

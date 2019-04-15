@@ -4,13 +4,11 @@ crio_kernel_modules:
   - overlay
   - br_netfilter
 
-crio_version: "1.13"
-crio_branch: "release-{{ crio_version }}"
+crio_tag: "v{{ crio_version }}"
 crio_package: "cri-o-{{ crio_version }}"
 
-
 # NOTE(curtis): libostree-dev comes from flatpak ppa
-# NOTE(curtis): golang-go is way too old, 1.8.5 doesn't work either
+# NOTE(curtis): golang-go that comes with OS is way too old, 1.8.5 doesn't work either
 # NOTE(curtis): runc can come from the atomicproject ppa, but it puts runc in /usr/sbin
 # as opposed to /usr/bin/ where it seems the crio.conf file that is generated from make
 # config goes.

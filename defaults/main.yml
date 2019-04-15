@@ -2,6 +2,11 @@
 
 crio_install_runc: true
 crio_manage_kubelet_extra_args: true
+crio_repo: "https://github.com/cri-o/cri-o"
 crio_version: "1.13.5"
+crio_binary_install_path: "/usr/local/bin/crio"
 runc_version: "1.0.0-rc6"
 go_version: "1.10.7"
+
+# upgrade crio if wrong version?
+crio_upgrade: False
