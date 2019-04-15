@@ -13,3 +13,22 @@
     enabled: true
     state: "started"
     daemon_reload: true
+  ignore_errors: True 
+  register: start_crio
+
+
+- name: debug failed start for when running in travisci
+  block:
+
+    - name: debug crio start failure
+      shell: journalctl -xe --no-pager -n 500
+      register: crio_journalctl_xe
+
+    - debug:
+        var: crio_journalctl_xe.stdout
+
+    - name: fail when crio start fails
+      fail:
+        msg: "could not start crio"
+
+  when: start_crio.failed
