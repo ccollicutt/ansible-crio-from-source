@@ -29,6 +29,7 @@
 - name: set current crio version
   set_fact:
     current_crio_version: "{{ test_crio_version.stdout_lines[0] | trim }}"
+  when: test_crio_version.rc == 0
 
 - name: set expected crio version
   set_fact:
@@ -42,7 +43,9 @@
   when: > 
     test_crio_version.failed or
     no_crio.stat.exists == false or
-    ( current_crio_version != expected_crio_version and crio_upgrade == True )
+    ( current_crio_version is defined and 
+      current_crio_version != expected_crio_version and 
+      crio_upgrade == True )
 
 # FIXME: policy.json maybe solved by installed skopeo?
 - name: ensure /etc/containers exists
