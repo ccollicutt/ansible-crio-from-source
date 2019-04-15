@@ -31,7 +31,7 @@
 # NOTE: If we are running in travis, we are running docker in docker
 # and that causes all kinds of issues...
 - name: check if we are running in a CI system
-  file:
+  copy:
     dest: "/etc/containers/storage.conf"
     content: |
       [storage]
