@@ -29,7 +29,8 @@
   ignore_errors: True
 
 # NOTE: If we are running in travis, we are running docker in docker
-# and that causes all kinds of issues...
+# and that causes all kinds of issues...Note that we are setting 
+# devicemapper for underlying docker.
 - name: check if we are running in a CI system
   copy:
     dest: "/etc/containers/storage.conf"
