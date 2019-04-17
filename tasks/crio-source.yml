@@ -50,7 +50,6 @@
       file:
         path: "{{ crio_build_dir }}"
         state: "absent"
-        recurse: True
 
     - name: checkout cri-o from github
       git:
