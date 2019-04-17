@@ -16,15 +16,19 @@
   ignore_errors: True 
   register: start_crio
 
-
+# It seems one can't ssh into a travis node for debugging in public repos 
+# without emailing travisci to enable debugging. Private paid for can do this
+# on their own.
 - name: debug failed start for when running in travisci
   block:
 
+    # FIXME: Is there a better way to grab these logs than using shell?
     - name: debug crio start failure
       shell: journalctl -xe --no-pager -n 500
       register: crio_journalctl_xe
 
-    - debug:
+    - name: debug crio_journalctl_xe
+      debug:
         var: crio_journalctl_xe.stdout
 
     - name: fail when crio start fails

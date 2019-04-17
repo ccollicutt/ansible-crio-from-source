@@ -19,12 +19,13 @@
 - name: test if crio is already installed
   stat:
     path: "{{ crio_binary_install_path }}"
-  register: no_crio
+  register: crio_installed
   ignore_errors: true
 
-- debug:
+- name: debug test_crio_version
+  debug:
     var: test_crio_version
-    verbosity: 2
+    verbosity: "2"
 
 - name: set current crio version
   set_fact:
@@ -42,10 +43,10 @@
   with_items: "{{ crio_build_commands }}"
   when: > 
     test_crio_version.failed or
-    no_crio.stat.exists == false or
+    not crio_installed.stat.exists or
     ( current_crio_version is defined and 
       current_crio_version != expected_crio_version and 
-      crio_upgrade == True )
+      crio_upgrade )
 
 # FIXME: policy.json maybe solved by installed skopeo?
 - name: ensure /etc/containers exists

@@ -8,5 +8,5 @@ galaxy_info:
   - name: Ubuntu
     versions:
     - Xenial
-  galaxy_tags: ["crio", "cri-o"]
+  galaxy_tags: ["crio"]
 dependencies: []

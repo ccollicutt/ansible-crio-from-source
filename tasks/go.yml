@@ -24,19 +24,23 @@
   register: current_go_version 
   changed_when: False
 
-- set_fact:
+- name: set current_go_version
+  set_fact:
     current_go_version: "{{ current_go_version.stdout | trim }}"
 
-- set_fact:
+- name: set expected_go_version
+  set_fact:
     expected_go_version: "go version go{{ go_version }} linux/amd64"
 
-- debug: 
+- name: debug current_go_version
+  debug: 
     var: current_go_version
-    verbosity: 2
+    verbosity: "2"
 
-- debug: 
+- name: debug expected_go_version
+  debug: 
     var: expected_go_version
-    verbosity: 2
+    verbosity: "2"
 
 - name: fail when unexpected go version
   fail:
