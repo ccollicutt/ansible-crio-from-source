@@ -40,4 +40,4 @@
   notify: restart crio
   when: >
     ci is defined and
-    ci == True
+    ci
