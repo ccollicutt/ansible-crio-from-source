@@ -3,6 +3,8 @@
 - name: ensure build packages are installed
   apt:
     name: "{{ crio_build_packages }}"
+  retries: 5
+  delay: 2
 
 - name: checkout cri-o from github
   git:

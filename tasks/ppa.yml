@@ -4,6 +4,8 @@
   apt:
     name: "software-properties-common"
     update_cache: true
+  retries: 5
+  delay: 2
 
 - name: install flatpak ppa
   apt_repository:
