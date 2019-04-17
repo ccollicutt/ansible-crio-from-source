@@ -43,6 +43,15 @@
 - name: build and install crio
   block:
 
+    # NOTE: Was having problems with make install.tools not setting up
+    # things properly if the repo was already there, or perhaps something
+    # else...anyways am removing now.
+    - name: remove crio_build_dir
+      file:
+        path: "{{ crio_build_dir }}"
+        state: "absent"
+        recurse: True
+
     - name: checkout cri-o from github
       git:
         repo: "{{ crio_repo }}"
