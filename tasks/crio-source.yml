@@ -32,9 +32,9 @@
   set_fact:
     expected_crio_version: "crio version {{ crio_version }}"
 
-- name: debug crio_update
+- name: debug crio_upgrade
   debug:
-    var: crio_update
+    var: crio_upgrade
     verbosity: "2"
 
 # NOTE: crio install instructions say install.tools, make, install, 
