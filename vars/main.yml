@@ -28,12 +28,6 @@ crio_build_packages:
   - go-md2man
   - libostree-dev
 
-crio_build_commands:
-  - make install.tools
-  - make
-  - make install
-  - make install.config
-
 crio_build_dir: "/srv/crio-build"
 
 crio_systemd_files:

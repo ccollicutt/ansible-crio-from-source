@@ -38,11 +38,31 @@
   set_fact:
     expected_crio_version: "crio version {{ crio_version }}"
 
-- name: build crio
-  shell: "{{ item }}"
-  args:
-    chdir: "{{ crio_build_dir }}"
-  with_items: "{{ crio_build_commands }}"
+# NOTE: crio install instructions say install.tools, make, install, 
+# install.config but make module can't understand empty entry so need 
+# to do these serially instead of using a with_items.
+- name: build and install crio
+  block:
+
+    - name: make install.tools
+      make:
+        chdir: "{{ crio_build_dir }}"
+        target: "install.tools"
+
+    - name: make
+      make:
+        chdir: "{{ crio_build_dir }}"
+
+    - name: make install
+      make:
+        chdir: "{{ crio_build_dir }}"
+        target: "install"
+
+    - name: make install.config
+      make:
+        chdir: "{{ crio_build_dir }}"
+        target: "install.config"
+
   when: > 
     test_crio_version.failed or
     not crio_installed.stat.exists or
