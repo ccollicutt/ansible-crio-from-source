@@ -38,6 +38,11 @@
   set_fact:
     expected_crio_version: "crio version {{ crio_version }}"
 
+- name: debug crio_update
+  debug:
+    var: crio_update
+    verbosity: "2"
+
 # NOTE: crio install instructions say install.tools, make, install, 
 # install.config but make module can't understand empty entry so need 
 # to do these serially instead of using a with_items.
