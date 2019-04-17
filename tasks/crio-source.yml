@@ -6,12 +6,6 @@
   retries: 5
   delay: 2
 
-- name: checkout cri-o from github
-  git:
-    repo: "{{ crio_repo }}"
-    dest: "{{ crio_build_dir }}"
-    version: "{{ crio_tag }}"
-
 - name: test crio version 
   shell: "{{ crio_binary_install_path }} --version"
   register: test_crio_version
@@ -48,6 +42,13 @@
 # to do these serially instead of using a with_items.
 - name: build and install crio
   block:
+
+    - name: checkout cri-o from github
+      git:
+        repo: "{{ crio_repo }}"
+        dest: "{{ crio_build_dir }}"
+        version: "{{ crio_tag }}"
+        update: "yes"
 
     - name: make install.tools
       make:
